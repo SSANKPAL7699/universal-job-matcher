@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Test field detection
+        run: |
+          python -c "
+          from app.detector import detect_field
+          
+          # Test 1: Software Engineering
+          field, conf, _ = detect_field('Python developer with Docker AWS PostgreSQL experience')
+          print(f'Test 1: {field} ({conf}%)')
+          assert field == 'Software Engineering', f'Expected Software Engineering, got {field}'
+          
+          # Test 2: Marketing
+          field, conf, _ = detect_field('SEO specialist with Google Ads HubSpot content marketing experience')
+          print(f'Test 2: {field} ({conf}%)')
+          assert field == 'Marketing', f'Expected Marketing, got {field}'
+          
+          # Test 3: Finance
+          field, conf, _ = detect_field('Financial analyst with DCF modeling private equity experience')
+          print(f'Test 3: {field} ({conf}%)')
+          assert field == 'Finance', f'Expected Finance, got {field}'
+          
+          print('All field detection tests passed!')
+          "
+
+      - name: Test full matcher
+        run: |
+          python -c "
+          from app.matcher import match
+          result = match(
+            'Python developer with FastAPI Docker AWS PostgreSQL Git experience',
+            'Looking for Python engineer with FastAPI Docker Kubernetes AWS'
+          )
+          print(f'Score: {result[\"final_score\"]}')
+          print(f'Field: {result[\"job_field\"]}')
+          print(f'Matched: {result[\"matched_skills\"]}')
+          assert result['final_score'] > 0, 'Score should be > 0'
+          assert result['job_field'] == 'Software Engineering', 'Should detect Software Engineering'
+          print('All matcher tests passed!')
+          "
+
+      - name: Build Docker image
+        run: docker build -t universal-job-matcher .
