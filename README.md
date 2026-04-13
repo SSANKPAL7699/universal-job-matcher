@@ -1,9 +1,19 @@
+---
+title: Universal Job Matcher
+emoji: 🎯
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+license: mit
+---
+
 # Universal Job Matcher
 
 Match your resume against any job description — works for ALL fields, not just tech.
 
 ## Live Demo
-👉 [Coming soon after deployment]
+👉 https://huggingface.co/spaces/ssankpal/universal-job-matcher
 
 ## Supported Fields
 - Software Engineering
@@ -18,31 +28,14 @@ Match your resume against any job description — works for ALL fields, not just
 - Human Resources
 
 ## What makes it different
-- **Field auto-detection** — automatically detects what field your resume and JD belong to
-- **Field mismatch warning** — alerts you if you're applying to the wrong field
-- **Field-specific tips** — advice tailored to your industry, not generic suggestions
-- **300+ skills** across 10 fields
-- **Free & open source** — no signup, no paywall, no credit card
+- Field auto-detection — automatically detects your field
+- Field mismatch warning — alerts you if applying to wrong field
+- Field-specific tips — advice tailored to your industry
+- 300+ skills across 10 fields
+- Free and open source — no signup, no paywall
 
 ## Tech Stack
-Python · FastAPI · scikit-learn (TF-IDF) · Docker · GitHub Actions
-
-## Run Locally
-```bash
-docker-compose up --build
-```
-Open http://localhost:8000
-
-## API Usage
-```bash
-# Match resume to job description
-curl -X POST https://your-url/api/match \
-  -H "Content-Type: application/json" \
-  -d '{"resume": "Python developer...", "job_description": "Looking for..."}'
-
-# Get all supported fields
-curl https://your-url/fields
-```
+Python · FastAPI · scikit-learn · Docker · GitHub Actions
 
 ## Author
 Shreya Sankpal · [LinkedIn](https://linkedin.com/in/shreya-sankpal) · [GitHub](https://github.com/SSANKPAL7699)
